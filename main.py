@@ -1,4 +1,5 @@
 import streamlit as st
+import csv
 
 col1, col2 = st.columns(2)
 
@@ -15,21 +16,32 @@ with col2:
     st.write(content)
 
 col3, col4 = st.columns(2)
+file = open("data.csv")
 
+csvreader = csv.reader(file, delimiter=';')
+header = next(csvreader)
+csvcount = 0
 with col3:
-    st.title("Todo app")
-    content = """
-    An app for managing todos for yourself.
-    """
-    st.write(content)
-    st.image("1.png")
-    st.link_button("Source code","https://github.com/zsmate/my-todo-app/blob/master/web.py")
+    for row in csvreader:
+        if csvcount < 10:
+            st.title(row[0])
+            content = row[1]
+            st.write(content)
+            st.image(row[3])
+            st.link_button("Source code", row[2])
+            csvcount = csvcount + 1
+        else:
+            break
 
+csvcount = 0
 with col4:
-    st.title("Portfolio website")
-    content = """
-        A website for presenting several apps.
-        """
-    st.write(content)
-    st.image("2.png")
-    st.link_button("Source code", "https://github.com/zsmate/app2_portfolio")
+    for row in csvreader:
+
+       # if csvcount >= 10:
+       st.title(row[0])
+       content = row[1]
+       st.write(content)
+       st.image(row[3])
+       st.link_button("Source code", row[2])
+               # csvcount = csvcount + 1
+        # print (csvcount)
